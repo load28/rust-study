@@ -28,7 +28,8 @@ impl OAuthLogin {
     }
 
     pub fn refresh_token(&mut self) {
-        println!("{}의 토큰 갱신 중...", self.provider_name());
+        let provider_name: String = self.provider_name();
+        println!("{}의 토큰 갱신 중...", provider_name);
     }
 
     pub fn provider_name(&self) -> String {
@@ -36,19 +37,50 @@ impl OAuthLogin {
     }
 
     pub fn get_profile(&self) {
+        let provider_name: String = self.provider_name();
+        let user_id: &String = &self.user.id;
         println!(
             "{}에서 프로필 정보 조회: {}",
-            self.provider_name(),
-            self.user.id
+            provider_name,
+            user_id
         );
     }
 }
 
 impl Loginable for OAuthLogin {
     fn login(&self) {
+        let user_id: &String = &self.user.id;
         println!(
             "OAuth 로그인 시도: ID = {}, Provider = {:?}",
-            self.user.id, self.provider
+            user_id, self.provider
         );
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_oauth_login_creation() {
+        let user: UserInfo = UserInfo {
+            id: "test_oauth".to_string(),
+            password: "test_token".to_string(),
+        };
+        let login: OAuthLogin = OAuthLogin::new(user, OAuthProvider::Google);
+        
+        assert_eq!(login.user.id, "test_oauth");
+        assert_eq!(login.provider_name(), "Google Provider");
+    }
+
+    #[test]
+    fn test_provider_name_formatting() {
+        let user: UserInfo = UserInfo {
+            id: "test".to_string(),
+            password: "test".to_string(),
+        };
+        let login: OAuthLogin = OAuthLogin::new(user, OAuthProvider::Github);
+        
+        assert_eq!(login.provider_name(), "Github Provider");
     }
 }
