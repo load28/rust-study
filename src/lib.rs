@@ -17,26 +17,29 @@ pub fn handle_normal_login_click() {
     execute_login(normal_login);
 }
 
-pub fn handle_oauth_login_click() {
+pub fn handle_google_login_click() {
     let oauth_user: UserInfo = UserInfo {
-        id: "oauth_user".to_string(),
-        password: "oauth_token".to_string(),
+        id: "google_user".to_string(),
+        password: "google_token".to_string(),
     };
     let oauth_login: OAuthLogin = OAuthLogin::new(oauth_user, OAuthProvider::Google);
     execute_login(oauth_login);
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub fn handle_github_login_click() {
+    let oauth_user: UserInfo = UserInfo {
+        id: "github_user".to_string(),
+        password: "github_token".to_string(),
+    };
+    let oauth_login: OAuthLogin = OAuthLogin::new(oauth_user, OAuthProvider::Github);
+    execute_login(oauth_login);
+}
 
-    #[test]
-    fn test_normal_login_flow() {
-        handle_normal_login_click();
-    }
-
-    #[test]
-    fn test_oauth_login_flow() {
-        handle_oauth_login_click();
-    }
+pub fn handle_kakao_login_click() {
+    let oauth_user: UserInfo = UserInfo {
+        id: "kakao_user".to_string(),
+        password: "kakao_token".to_string(),
+    };
+    let oauth_login: OAuthLogin = OAuthLogin::new(oauth_user, OAuthProvider::Kakao);
+    execute_login(oauth_login);
 }

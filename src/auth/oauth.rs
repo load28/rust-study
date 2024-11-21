@@ -39,21 +39,38 @@ impl OAuthLogin {
     pub fn get_profile(&self) {
         let provider_name: String = self.provider_name();
         let user_id: &String = &self.user.id;
-        println!(
-            "{}에서 프로필 정보 조회: {}",
-            provider_name,
-            user_id
-        );
+        println!("{}에서 프로필 정보 조회: {}", provider_name, user_id);
+    }
+
+    fn google_login(&self) {
+        let user_id: &String = &self.user.id;
+        println!("Google OAuth 로그인 시도: {}", user_id);
+        println!("Google 계정 인증 진행 중...");
+        println!("Google 토큰 검증 중...");
+    }
+
+    fn github_login(&self) {
+        let user_id: &String = &self.user.id;
+        println!("Github OAuth 로그인 시도: {}", user_id);
+        println!("Github 인증 토큰 요청 중...");
+        println!("Github 사용자 권한 확인 중...");
+    }
+
+    fn kakao_login(&self) {
+        let user_id: &String = &self.user.id;
+        println!("Kakao OAuth 로그인 시도: {}", user_id);
+        println!("Kakao 인증 코드 검증 중...");
+        println!("Kakao 사용자 정보 동기화 중...");
     }
 }
 
 impl Loginable for OAuthLogin {
     fn login(&self) {
-        let user_id: &String = &self.user.id;
-        println!(
-            "OAuth 로그인 시도: ID = {}, Provider = {:?}",
-            user_id, self.provider
-        );
+        match self.provider {
+            OAuthProvider::Google => self.google_login(),
+            OAuthProvider::Github => self.github_login(),
+            OAuthProvider::Kakao => self.kakao_login(),
+        }
     }
 }
 
@@ -68,7 +85,7 @@ mod tests {
             password: "test_token".to_string(),
         };
         let login: OAuthLogin = OAuthLogin::new(user, OAuthProvider::Google);
-        
+
         assert_eq!(login.user.id, "test_oauth");
         assert_eq!(login.provider_name(), "Google Provider");
     }
@@ -80,7 +97,7 @@ mod tests {
             password: "test".to_string(),
         };
         let login: OAuthLogin = OAuthLogin::new(user, OAuthProvider::Github);
-        
+
         assert_eq!(login.provider_name(), "Github Provider");
     }
 }
