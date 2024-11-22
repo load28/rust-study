@@ -3,6 +3,7 @@ pub mod models;
 
 use std::fmt;
 use std::ops::Add;
+use std::ops::Deref;
 
 use auth::normal::NormalLogin;
 use auth::oauth::{OAuthLogin, OAuthProvider};
@@ -137,6 +138,30 @@ impl SuperTrait for Point {
 
 impl OutlinePrint for Point {}
 
+struct Wrapper(Vec<String>);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
+struct SmartVec(Vec<String>);
+
+impl Deref for SmartVec {
+    type Target = Vec<String>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl fmt::Display for SmartVec {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "[{}]", self.join(", "))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -166,5 +191,19 @@ mod tests {
     fn test_outline_print() {
         let point = Point { x: 1, y: 2 };
         point.outline_print();
+    }
+
+    #[test]
+    fn test_wrapper() {
+        let wrapper = Wrapper(vec!["Hello".to_string(), "World".to_string()]);
+        assert_eq!(wrapper.to_string(), "[Hello, World]");
+    }
+
+    #[test]
+    fn test_smart_vec() {
+        let smart_vec = SmartVec(vec!["Hello".to_string(), "World".to_string()]);
+        assert_eq!(smart_vec.to_string(), "[Hello, World]");
+        // Vec의 메서드들을 직접 사용 가능
+        assert_eq!(smart_vec.len(), 2);
     }
 }
