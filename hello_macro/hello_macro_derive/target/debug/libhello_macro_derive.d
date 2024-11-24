@@ -1,1 +1,0 @@
-/Users/seominyong/Downloads/source/rust-study/hello-macro/hello-macro-derive/target/debug/libhello_macro_derive.dylib: /Users/seominyong/Downloads/source/rust-study/hello-macro/hello-macro-derive/src/lib.rs
