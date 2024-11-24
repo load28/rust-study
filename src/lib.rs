@@ -10,7 +10,6 @@ use auth::oauth::{OAuthLogin, OAuthProvider};
 use auth::traits::Loginable;
 use hello_macro::HelloMacro;
 use models::user::UserInfo;
-use print_struct_macro::PrintStruct;
 
 pub fn execute_login<T: Loginable>(login_handler: T) {
     println!("----------------------로그인 프로세스 시작----------------------");
@@ -167,13 +166,6 @@ impl fmt::Display for SmartVec {
 #[derive(HelloMacro)]
 pub struct HelloUser;
 
-#[derive(PrintStruct)]
-struct Person {
-    name: String,
-    age: u32,
-    email: Option<String>,
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -222,10 +214,5 @@ mod tests {
     #[test]
     fn test_hello_macro() {
         HelloUser::hello_macro(); // 출력: "안녕하세요! HelloUser입니다!"
-    }
-
-    #[test]
-    fn test_print_struct() {
-        Person::print_struct_info();
     }
 }

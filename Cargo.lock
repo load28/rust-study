@@ -23,15 +23,6 @@ version = "0.1.0"
 dependencies = [
  "hello-macro",
  "hello-macro-derive",
- "print-struct-macro",
-]
-
-[[package]]
-name = "print-struct-macro"
-version = "0.1.0"
-dependencies = [
- "quote",
- "syn",
 ]
 
 [[package]]

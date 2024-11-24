@@ -14,4 +14,3 @@ path = "src/main.rs"
 [dependencies]
 hello-macro = { path = "hello_macro" }
 hello-macro-derive = { path = "hello_macro/hello_macro_derive" }
-print-struct-macro = { path = "print-struct-macro" }
